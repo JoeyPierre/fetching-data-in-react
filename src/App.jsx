@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as weatherService from './services/weatherService';
 import './App.css'
 import WeatherSearch from './components/WeatherSearch';
@@ -18,6 +18,22 @@ const fetchData = async () => {
     };
     setWeather(newWeatherState);
   };
+  
+  useEffect(() => {
+    const fetchDefaultData = async () => {
+      const data = await weatherService.show('New York');
+      const newWeatherState = {
+        location: data.location.name,
+        temperature: data.current.temp_f,
+        condition: data.current.condition.text,
+      };
+      setWeather(newWeatherState);
+    };
+    fetchDefaultData();
+
+
+  }, []); // An empty dependency array means this runs once after the initial render
+
 
 return (
   <main>
